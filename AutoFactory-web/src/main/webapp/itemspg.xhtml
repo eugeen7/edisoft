@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>АфтоФорд запчасти</title>
+        <style type="text/css">
+            .ui-widget,.ui-widget .ui-widget {
+                font-size: 90% !important;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:outputStylesheet library = "styles" name = "itemsfctr.css"  /> 
+            <h3><h:outputText value="Цех запчастей #{autoMblView.autofctr.fctrNm}"/></h3> 
+
+            <p:toolbar>
+                <f:facet name="left">
+                    <p:commandButton value="Обновить" process="@this" actionListener="#{itemsFactoryView.obtainCrbodyies}"
+                                     update="crbodytbl" oncomplete="PF('crbdTable').filter();"/>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton value="Новый корпус" process="@this" actionListener="#{itemsFactoryView.createCrbody}">
+                        <p:ajax event="dialogReturn" oncomplete="PF('crbdTable').filter();" update="crbodytbl"/>
+                    </p:commandButton>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton id="crbodyedtbtn" value="Редактировать" process="@this" actionListener="#{itemsFactoryView.editCrbody}"
+                                     disabled="#{itemsFactoryView.crbody == null ? true : false}">
+                        <p:ajax event="dialogReturn" oncomplete="PF('crbdTable').filter();" update="crbodytbl"/>
+                    </p:commandButton>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton value="Удалить" process="@this" actionListener="#{itemsFactoryView.deleteCrbody}"
+                                     update="crbodytbl" oncomplete="PF('crbdTable').filter();"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:link value="Цех сборки" outcome="/index" 
+                            style="font-size: 11pt; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"/>
+                </f:facet>
+            </p:toolbar>
+
+            <p:dataTable id="crbodytbl" var="crbd" value="#{itemsFactoryView.crbodyLst}" reflow="true"  
+                         selectionMode="single" widgetVar="crbdTable" selection="#{itemsFactoryView.crbody}" rowKey="#{crbd.crbodyId}" 
+                         filteredValue="#{itemsFactoryView.crbodyLstFltr}" paginator="true" rows="10" resizableColumns="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,15,20,25,30" currentPageReportTemplate="({startRecord} - {endRecord} из {totalRecords}, Стр: {currentPage}/{totalPages})"
+                         paginatorPosition="bottom" emptyMessage="Кузова не найдены">
+                <p:ajax event="rowSelect" process="crbodytbl" update="@parent:crbodyedtbtn"/>
+                <f:facet name="header">
+                    Кузовова
+                </f:facet>
+                <p:column headerText="Тип кузова" style="width: 15%">
+                    <h:outputText value="#{crbd.crbdtypeFk.bdtype}" />
+                </p:column>
+
+                <p:column headerText="Цвет" style="width: 15%">
+                    <h:outputText value="#{crbd.crbdclrsFk.color}" />
+                </p:column>
+
+                <p:column headerText="VIN" style="width: 15%">
+                    <h:outputText value="#{crbd.vincode}" />
+                </p:column>
+
+                <p:column headerText="Описание" style="width: 55%">
+                    <h:outputText value="#{crbd.crbddsc.length() gt 50 ? crbd.crbddsc.substring(0, 50).concat('...') : crbd.crbddsc}" />
+                </p:column>
+
+            </p:dataTable>
+            <hr/>
+            <p:toolbar style="margin-top: 2%">
+                <f:facet name="left">
+                    <p:commandButton value="Обновить" process="@this" actionListener="#{itemsFactoryView.obtainMotors}"
+                                     update="motortbl" oncomplete="PF('motorTable').filter();"/>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton value="Новый двигатель" process="@this" actionListener="#{itemsFactoryView.createMotor}">
+                        <p:ajax event="dialogReturn" oncomplete="PF('motorTable').filter();" update="motortbl"/>
+                    </p:commandButton>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton id="motoredtbtn" value="Редактировать" process="@this" actionListener="#{itemsFactoryView.editMotor}"
+                                     disabled="#{itemsFactoryView.motor == null ? true : false}">
+                        <p:ajax event="dialogReturn" oncomplete="PF('motorTable').filter();" update="motortbl"/>
+                    </p:commandButton>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton value="Удалить" process="@this" actionListener="#{itemsFactoryView.deleteMotor}"
+                                     update="motortbl" oncomplete="PF('motorTable').filter();"/>
+
+                </f:facet>
+            </p:toolbar>
+
+            <p:dataTable id="motortbl" var="mtr" value="#{itemsFactoryView.motorLst}" reflow="true"  
+                         selectionMode="single" widgetVar="motorTable" selection="#{itemsFactoryView.motor}" rowKey="#{mtr.motorId}" 
+                         filteredValue="#{itemsFactoryView.motorLstFltr}" paginator="true" rows="10" resizableColumns="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,15,20,25,30" currentPageReportTemplate="({startRecord} - {endRecord} из {totalRecords}, Стр: {currentPage}/{totalPages})"
+                         paginatorPosition="bottom" emptyMessage="Двигатели не найдены">
+                <p:ajax event="rowSelect" process="motortbl" update="@parent:motoredtbtn"/>
+                <f:facet name="header">
+                    Двигатели
+                </f:facet>
+                <p:column headerText="Тип двигателя" style="width: 15%">
+                    <h:outputText value="#{mtr.mtrtypeFk.typemtr}" />
+                </p:column>
+
+                <p:column headerText="Мощность кВт." style="width: 10%">
+                    <h:outputText value="#{mtr.mtrpower} кВт." >
+                        <f:convertNumber pattern="#0.00"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Объём" style="width: 10%">
+                    <h:outputText value="#{mtr.volume} см3">
+                        <f:convertNumber pattern="#0.00"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Номер" style="width: 10%">
+                    <h:outputText value="#{mtr.motorsn}" />
+                </p:column>
+
+                <p:column headerText="Описание" style="width: 55%">
+                    <h:outputText value="#{mtr.mtdsc.length() gt 80 ? mtr.mtdsc.substring(0, 80).concat('...') : mtr.mtdsc}" />
+                </p:column>
+
+            </p:dataTable>
+
+            <hr/>
+            <p:toolbar style="margin-top: 2%">
+                <f:facet name="left">
+                    <p:commandButton value="Обновить" process="@this" actionListener="#{itemsFactoryView.obtainTrnsmsns}"
+                                     update="trnstbl" oncomplete="PF('trnsTable').filter();"/>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton value="Новая трансмиссия" process="@this" actionListener="#{itemsFactoryView.createTrnsmsn}">
+                        <p:ajax event="dialogReturn" oncomplete="PF('trnsTable').filter();" update="trnstbl"/>
+                    </p:commandButton>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton id="trnsedtbtn" value="Редактировать" process="@this" actionListener="#{itemsFactoryView.editTrnsmsn}"
+                                     disabled="#{itemsFactoryView.trnsmsn == null ? true : false}">
+                        <p:ajax event="dialogReturn" oncomplete="PF('trnsTable').filter();" update="trnstbl"/>
+                    </p:commandButton>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton value="Удалить" process="@this" actionListener="#{itemsFactoryView.deleteTrnsmsn}"
+                                     update="trnstbl" oncomplete="PF('trnsTable').filter();"/>
+
+                </f:facet>
+            </p:toolbar>
+
+            <p:dataTable id="trnstbl" var="trns" value="#{itemsFactoryView.trnsmsnLst}" reflow="true"  
+                         selectionMode="single" widgetVar="trnsTable" selection="#{itemsFactoryView.trnsmsn}" rowKey="#{trns.trnsmsnId}" 
+                         filteredValue="#{itemsFactoryView.trnsmsnLstFltr}" paginator="true" rows="10" resizableColumns="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,15,20,25,30" currentPageReportTemplate="({startRecord} - {endRecord} из {totalRecords}, Стр: {currentPage}/{totalPages})"
+                         paginatorPosition="bottom" emptyMessage="Трансмиссии не найдены">
+                <p:ajax event="rowSelect" process="trnstbl" update="@parent:trnsedtbtn"/>
+                <f:facet name="header">
+                    Трансмиссии
+                </f:facet>
+                <p:column headerText="Тип трансмиссии" style="width: 20%">
+                    <h:outputText value="#{trns.trnstypeFk.typetrns}" />
+                </p:column>
+
+                <p:column headerText="Номер" style="width: 15%">
+                    <h:outputText value="#{trns.trnsmsnsn}" />
+                </p:column>
+
+                <p:column headerText="Описание" style="width: 65%">
+                    <h:outputText value="#{trns.trnsdsc.length() gt 50 ? trns.trnsdsc.substring(0, 50).concat('...') : trns.trnsdsc}" />
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

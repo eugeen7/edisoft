@@ -1,0 +1,7 @@
+com\autofactory\jsf\pgs\AutoMblView.class
+com\autofactory\jsf\utils\JsfUtils.class
+com\autofactory\jsf\rest\ItemsAtmblRESTSrv.class
+com\autofactory\jsf\rest\service\ApplicationConfig.class
+com\autofactory\jsf\pgs\ItemsFactoryView.class
+com\autofactory\jsf\rest\StoreRESRSrv.class
+com\autofactory\jsf\rest\AutomblRESTSrv.class

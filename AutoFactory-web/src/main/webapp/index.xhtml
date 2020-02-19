@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <link rel="stylesheet" type="text/css" href="resources/styles/menucss.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>АфтоФорд</title>
+    </h:head>
+    <h:body>
+        <ul class="metro">
+            <li><a href="#" style="font-weight: bold; color: black">Приложение JSF</a>
+                <ul>
+                    <li><a href="faces/atfctrpg.xhtml" style="color: #037">Цех сборки</a></li>
+                    <li><a href="faces/itemspg.xhtml" style="color: #037">Цех запчастей</a></li>
+                </ul>
+            </li>
+            <li><a href="#" style="font-weight: bold; color: black">Сервисы REST</a>
+                <ul>
+                    <li><a href="#" style="font-weight: bold; color: black">Склад</a>
+                        <ul>
+                            <li><a href="rest/store/crbdlst" style="color: #037">Кузова в наличии</a></li>
+                            <li><a href="rest/store/mtrlst" style="color: #037">Двигатели в наичии</a></li>
+                            <li><a href="rest/store/trnslst" style="color: #037">Трансмиссии в наличии</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" style="font-weight: bold; color: black">Цех сборки</a>
+                        <ul>
+                            <li><a href="rest/atmbl/atmbllst" style="color: #037">Список автомобилей</a></li>
+                            <li><a href="rest/atmbl/crdlst" style="color: #037">Кузова автомобильные</a></li>
+                            <li><a href="rest/atmbl/crdtpslst" style="color: #037">Типы кузовов</a></li>                            
+                            <li><a href="rest/atmbl/crdclrslst" style="color: #037">Цвета кузовов</a></li>
+                            <li><a href="rest/atmbl/motorslst" style="color: #037">Двигатели</a></li>
+                            <li><a href="rest/atmbl/trnslst" style="color: #037">Трансмиссии</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#" style="font-weight: bold; color: black">Цех запчастей</a>
+                        <ul>
+                            <li><a href="rest/itmsatmbl/crdlst" style="color: #037">Кузова в сборе</a></li>
+                            <li><a href="rest/itmsatmbl/crdtpslst" style="color: #037">Типы кузовов</a></li>
+                            <li><a href="rest/itmsatmbl/crdclrslst" style="color: #037">Доступные цвета кузовов</a></li>                            
+                            <li><a href="rest/itmsatmbl/motorslst" style="color: #037">Двигатели</a></li>
+                            <li><a href="rest/itmsatmbl/mtrtpslst" style="color: #037">Типы двигателей</a></li>
+                            <li><a href="rest/itmsatmbl/trnslst" style="color: #037">Трансмиссии в сборе</a></li>
+                            <li><a href="rest/itmsatmbl/trntpslst" style="color: #037">Типы трансмиссий</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <br/>
+        <p align="center" style="color:Black">Сервисы &quot;Склад&quot;, &quot;Цех сборки&quot; и &quot;Цех запчастей&quot; содержат также множество других метеодов, для работы с ВЕБ прложениями.</p>
+    </h:body>
+</html>
+

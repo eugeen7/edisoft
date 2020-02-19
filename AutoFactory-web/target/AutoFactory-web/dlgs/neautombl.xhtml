@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title><h:outputText value="#{autoMblView.automblNeHdr}"/></title>
+        <script type="text/css">
+            .ui-selectonemenu .ui-selectonemenu-items {
+                font-size: 90% !important;
+            }  
+        </script>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:panel style="text-align: left; font-size: 10pt; width: 99.9%">
+                <p:messages id="necrbdmsgs" showDetail="true" autoUpdate="true" closable="true" showSummary="false"
+                            style="font-size: 100% !important;"/>
+                <h:panelGrid columns="1" cellpadding="3" style="margin-top: 0%; margin-left: -3px; font-size: 11pt; color: #037">
+                    <h:panelGrid columns="2" cellpadding="3" style="margin-top: 0%; margin-left: -3px; font-size: 10pt">
+
+                        <h:outputText value="Тип кузова:" style="font-weight: bold"/>
+                        <p:selectOneMenu id="slcrbdtp"  value="#{autoMblView.crbdtypeIdx}" required="false" requiredMessage="Тип кузова обязателен"
+                                         panelStyle="font-size: 90% !important;"> 
+                            <p:ajax event="change" update="stcrbody"/>
+                            <f:selectItem itemLabel="Тип кузова не указан" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{autoMblView.crbdtypeLst}" var="crbdtp" itemLabel="#{crbdtp.bdtype}" itemValue="#{crbdtp.crbdtypeId}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Цвет кузова:" style="font-weight: bold"/>
+                        <p:selectOneMenu id="slcrbdclr"  value="#{autoMblView.crbdclrIdx}" required="false" requiredMessage="Цвет кузова обязателен"
+                                         panelStyle="font-size: 90% !important;"> 
+                            <p:ajax event="change" update="stcrbody"/>
+                            <f:selectItem itemLabel="Цвет кузова не указан" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{autoMblView.crbdclrsLst}" var="crbdclr" itemLabel="#{crbdclr.color}" itemValue="#{crbdclr.crbdclrsId}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Кузов:" style="font-weight: bold"/>
+                        <p:outputLabel id="stcrbody" value="#{autoMblView.crbodyCount}"/>
+
+                        <h:outputText value="Двигатель:" style="font-weight: bold"/>
+                        <p:selectOneMenu id="slmtr"  value="#{autoMblView.motorIdx}" required="false" requiredMessage="Двигатель обязателен"
+                                         panelStyle="font-size: 90% !important;"> 
+                            <p:ajax event="change" />
+                            <f:selectItem itemLabel="Двигатель не указан" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{autoMblView.motorLst}" var="mtr" itemLabel="#{mtr.mtdsc} #{autoMblView.fromStoreMotorMap[mtr.motorId] != null? ' (В наличии)' : ' (Используется)'}"
+                                           itemValue="#{mtr.motorId}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Трансмиссия:" style="font-weight: bold"/>
+                        <p:selectOneMenu id="sltrnsmsn"  value="#{autoMblView.trnsmsnIdx}" required="false" requiredMessage="Трансмиссия обязательна"
+                                         panelStyle="font-size: 90% !important;"> 
+                            <p:ajax event="change" />
+                            <f:selectItem itemLabel="Трансмиссия не указана" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{autoMblView.trnsmsnLst}" var="trnsmsn" itemLabel="#{trnsmsn.trnsdsc} #{autoMblView.fromStoreTrnsmsnMap[trnsmsn.trnsmsnId] != null ? ' (В наличии)' : ' (Используется)'}"
+                                           itemValue="#{trnsmsn.trnsmsnId}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Модель:" style="font-weight: bold"/>
+                        <p:inputText id="mdl" value="#{autoMblView.autombl.atmodel}" required="true" requiredMessage="Модель обязательна"/>
+
+                        <h:outputText value="Статус:" style="font-weight: bold"/>
+                        <p:selectBooleanButton id="actv" value="#{autoMblView.autombl.stactive}" onLabel="Сборка" offLabel="Проект" style="width:80px" />
+                    </h:panelGrid>
+
+                    <h:outputText value="Описание:" style="font-weight: bold"/>
+                    <h:panelGroup>
+                        <p:inputTextarea id="atdsc" value="#{autoMblView.autombl.atdsc}" style="font-size: 10pt; text-align: left;" maxlength="250" 
+                                         placeholder="Подробное описание" rows="3" cols="50" counter="displndsc" counterTemplate="{0} символов доступно" required="true"
+                                         validatorMessage="Максимальное количество символов 250"
+                                         requiredMessage="Подробное описание обязательно" autoResize="false">                        
+                        </p:inputTextarea>
+                        &nbsp;
+                        <h:outputText id="displndsc" style="font-size: 10pt;"/>  
+                    </h:panelGroup>
+                </h:panelGrid>
+            </p:panel>
+
+            <h:panelGrid columns="4" cellpadding="3" style="font-size: 10pt; margin-top: 0.7%">
+                <p:commandButton value="Сохранить" actionListener="#{autoMblView.saveAutombl}" 
+                                 process="slcrbdtp slcrbdclr slmtr sltrnsmsn mdl actv atdsc @this" 
+                                 title="Сохранить кузов" style="font-size: 100% !important;"/>
+
+                <p:commandButton value="Закрыть" actionListener="#{autoMblView.cancelAutomblDlg}" process="@this"
+                                 title="Закрыть диалоговое окно" style="font-size: 100% !important;"/>
+            </h:panelGrid>        
+        </h:form>
+    </h:body>
+</html>

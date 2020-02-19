@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>АфтоФорд</title>
+        <style type="text/css">
+            .ui-widget,.ui-widget .ui-widget {
+                font-size: 90% !important;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h3><h:outputText value="Фабрика #{autoMblView.autofctr.fctrNm}"/></h3>
+
+            <p:toolbar>
+                <f:facet name="left">
+                    <p:commandButton value="Обновить" process="@this" actionListener="#{autoMblView.refreshAutomblLst}"
+                                     update="cartabl" oncomplete="PF('carsTable').filter();"/>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton value="Новый автомобиль" process="@this" actionListener="#{autoMblView.createAutombl}">
+                        <p:ajax event="dialogReturn" oncomplete="PF('carsTable').filter();" update="cartabl"/>
+                    </p:commandButton>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton id="autombledtbtn" value="Редактировать" process="@this" actionListener="#{autoMblView.editAutombl}"
+                                     disabled="#{autoMblView.autombl == ull}">
+                        <p:ajax event="dialogReturn" oncomplete="PF('carsTable').filter();" update="cartabl"/>
+                    </p:commandButton>
+
+                    <p:spacer width="10px"/>
+
+                    <p:commandButton value="В проекты" process="@this" actionListener="#{autoMblView.deleteAutombl}"
+                                     update="cartabl" oncomplete="PF('carsTable').filter();"/>
+
+                </f:facet>
+
+                <f:facet name="right">
+                    <p:link value="Цех запчастей" outcome="/itemspg" style="font-size: 11pt; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"/>
+                </f:facet>
+            </p:toolbar>
+
+            <p:dataTable id="cartabl" var="car" value="#{autoMblView.automblLst}" reflow="true"  
+                         selectionMode="single" widgetVar="carsTable" selection="#{autoMblView.autombl}" rowKey="#{car.automblId}" 
+                         filteredValue="#{autoMblView.fltrAutomblLst}" paginator="true" rows="10" resizableColumns="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,15,20,25,30" currentPageReportTemplate="({startRecord} - {endRecord} из {totalRecords}, Стр: {currentPage}/{totalPages})"
+                         paginatorPosition="bottom" emptyMessage="Автомобили не найдены">
+                <p:ajax event="rowSelect" process="cartabl" update="@parent:autombledtbtn @parent:autodsc"/>
+                <f:facet name="header">
+                    Список автомобилей
+                </f:facet>
+                <p:column headerText="Модель" style="width: 10%">
+                    <h:outputText value="#{car.atmodel}" />
+                </p:column>
+
+                <p:column headerText="Кузов" style="width: 10%">
+                    <h:outputText value="#{car.crbodyFk.crbdtypeFk.bdtype}" />
+                </p:column>
+
+                <p:column headerText="Цвет" style="width: 10%">
+                    <h:outputText value="#{car.crbodyFk.crbdclrsFk.color}" />
+                </p:column>
+
+                <p:column headerText="Двигатель" style="width: 30%">
+                    <h:outputText value="#{car.motorFk.mtdsc.length() gt 50 ? car.motorFk.mtdsc.substring(0, 50).concat('...') : car.motorFk.mtdsc}" />
+                </p:column>
+
+                <p:column headerText="Трансмиссия" style="width: 25%">
+                    <h:outputText value="#{car.trnsmsnFk.trnsdsc}" />
+                </p:column>
+
+                <p:column headerText="Статус" style="width: 15%">
+                    <h:outputText value="#{car.stactive == true ? 'Сборка' : 'Проект'}" />
+                </p:column>
+            </p:dataTable>
+
+            <h:outputText id="autodsc" value="#{autoMblView.autombl.atdsc}, #{autoMblView.autombl.crbodyFk != null ? autoMblView.autombl.crbodyFk.crbddsc.concat(',') : ''} 
+                          #{autoMblView.autombl.motorFk != null ? autoMblView.autombl.motorFk.mtrtypeFk.typemtr.concat(',') : ''} #{autoMblView.autombl.motorFk != null ? autoMblView.autombl.motorFk.mtdsc.concat(',') : ''} 
+                          #{autoMblView.autombl.trnsmsnFk != null ? autoMblView.autombl.trnsmsnFk.trnsdsc : ''}"/>
+
+        </h:form>
+    </h:body>
+</html>
+
